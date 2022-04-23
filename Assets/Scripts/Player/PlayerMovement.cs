@@ -6,11 +6,15 @@ public class PlayerMovement : MonoBehaviour
 {
 	[SerializeField] float speed;
 	[SerializeField] float jumpForce;
+	[SerializeField] float flyForce;
+	[SerializeField] int jumpCount = 1;
 	[SerializeField] GroundCheck groundCeck;
 	[Space]
 	public bool CanMoveLeft;
 	public bool CanMoveRight;
 	public bool CanJump;
+	public bool CanMultiJump;
+	public bool CanFly;
 
 
 	private Rigidbody2D rb;
@@ -30,6 +34,16 @@ public class PlayerMovement : MonoBehaviour
 		if(Input.GetKeyDown(KeyCode.Space) && CanJump)
 		{
 			Jump();
+		}
+
+		if(Input.GetKeyDown(KeyCode.Space) && CanMultiJump)
+		{
+			MultiJump();
+		}
+
+		if(Input.GetKey(KeyCode.Space) && CanFly)
+		{
+			Fly();
 		}
 	}
 
@@ -54,5 +68,24 @@ public class PlayerMovement : MonoBehaviour
 		{
 			rb.velocity += new Vector2(0, rb.velocity.y + jumpForce);
 		}
+	}
+
+	public void MultiJump()
+	{
+		if (groundCeck.isGrounded)
+		{
+			jumpCount = 2;
+			rb.velocity += new Vector2(0, rb.velocity.y + jumpForce);
+		}
+		else if(jumpCount > 1)
+		{
+			jumpCount--;
+			rb.velocity += new Vector2(0, rb.velocity.y + jumpForce);
+		}
+	}
+
+	public void Fly()
+	{
+		rb.velocity += new Vector2(0, flyForce * Time.deltaTime);
 	}
 }
