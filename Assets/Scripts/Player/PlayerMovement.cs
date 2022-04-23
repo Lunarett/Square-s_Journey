@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
 	public bool CanMultiJump;
 	public bool CanFly;
 
+	[HideInInspector] public bool Boop;
 
 	private Rigidbody2D rb;
 
